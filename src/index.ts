@@ -1,4 +1,5 @@
 import puppeteer, { Page, Browser } from "puppeteer";
+import dotenv from "dotenv";
 
 // Googleアカウントにログインする処理
 async function loginWithGoogle(
@@ -65,8 +66,15 @@ async function enterGoogleMeet(
   return browser;
 }
 
-// 実行例
-const meetLink = ""; // 定義追加
-const email = ""; // 定義追加
-const password = ""; // 定義追加
-enterGoogleMeet(meetLink, email, password).catch((err) => console.error(err));
+dotenv.config();
+const meetLink = process.env.MEET_LINK;
+const email = process.env.EMAIL;
+const password = process.env.PASSWORD;
+
+if (meetLink && email && password) {
+  enterGoogleMeet(meetLink, email, password).catch((err) => console.error(err));
+} else {
+  console.error(
+    "MEET_LINK, EMAIL, and PASSWORD must be set in the environment variables."
+  );
+}
